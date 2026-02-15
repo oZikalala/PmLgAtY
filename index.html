@@ -2,135 +2,166 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Watch Movie Online HD</title>
+<title>Loading...</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Watch movies and TV series online in HD quality.">
-<link rel="canonical" id="canonicalLink">
-</head>
+<meta name="robots" content="index, follow">
+<link id="canonicalURL" rel="canonical">
 
-<body style="background:#111;color:#fff;font-family:Arial;padding:20px">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.2/lumen/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{background:#111;color:#fff;font-family:Segoe UI;padding:2rem}
+#playerWrapper{aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
+#streamPlayer{width:100%;height:100%;border:0}
+.movie-poster{max-width:220px;border-radius:12px}
+</style>
+</head>
+<body>
+
+<div class="container">
 
 <h1 id="movieTitle">Loading...</h1>
-<p id="movieTagline"></p>
+<p id="movieTagline" class="text-muted"></p>
 
-<div id="playerWrapper" style="margin-top:20px;">
-<iframe id="streamPlayer" width="100%" height="500" frameborder="0" allowfullscreen></iframe>
+<div id="playerWrapper" class="mb-4">
+<iframe id="streamPlayer" allowfullscreen></iframe>
 </div>
 
 <div id="movieDetail"></div>
 
-<script>
-const apiKey = "e0b203e42e12587b6ce507b8aa452e8c";
-
-// ==========================
-// SUPPORT GITHUB 404 REDIRECT
-// ==========================
-if (window.location.hash) {
-  const cleanPath = window.location.hash.substring(1);
-  history.replaceState(null, null, cleanPath);
-}
-
-// ==========================
-// PARSE CLEAN URL
-// ==========================
-const pathParts = window.location.pathname.split('/').filter(Boolean);
-
-let movieId = null;
-let tvId = null;
-let seasonNumber = 1;
-let episodeNumber = 1;
-
-if (pathParts.length === 1 && /^\d+$/.test(pathParts[0])) {
-  movieId = pathParts[0];
-}
-
-if (pathParts[0] === "tv" && pathParts.length >= 2) {
-  tvId = pathParts[1];
-  seasonNumber = pathParts[2] || 1;
-  episodeNumber = pathParts[3] || 1;
-}
-
-// ==========================
-// SET CANONICAL
-// ==========================
-document.getElementById("canonicalLink").href = window.location.href;
-
-const streamPlayer = document.getElementById("streamPlayer");
-const container = document.getElementById("movieDetail");
-
-
-// ==========================
-// MOVIE MODE
-// ==========================
-if (movieId) {
-
-fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`)
-.then(res => res.json())
-.then(movie => {
-
-document.title = movie.title + " (" + new Date(movie.release_date).getFullYear() + ")";
-document.getElementById("movieTitle").textContent = movie.title;
-document.getElementById("movieTagline").textContent = movie.tagline || "";
-
-streamPlayer.src = `https://vidsrc.cc/v2/embed/movie/${movie.id}`;
-
-container.innerHTML = `
-<img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" width="200"><br><br>
-<p>${movie.overview}</p>
-<p><strong>Rating:</strong> ${movie.vote_average}</p>
-`;
-
-})
-.catch(() => showError());
-
-}
-
-
-// ==========================
-// TV MODE
-// ==========================
-else if (tvId) {
-
-fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${apiKey}&language=en-US`)
-.then(res => res.json())
-.then(tv => {
-
-document.title = tv.name + " S" + seasonNumber + "E" + episodeNumber;
-document.getElementById("movieTitle").textContent =
-tv.name + " - Season " + seasonNumber + " Episode " + episodeNumber;
-
-streamPlayer.src =
-`https://vidsrc.cc/v2/embed/tv/${tvId}/${seasonNumber}/${episodeNumber}`;
-
-container.innerHTML = `
-<img src="https://image.tmdb.org/t/p/w500${tv.poster_path}" width="200"><br><br>
-<p>${tv.overview}</p>
-`;
-
-})
-.catch(() => showError());
-
-}
-
-
-// ==========================
-// NO ID
-// ==========================
-else {
-showError();
-}
-
-
-// ==========================
-function showError() {
-document.body.innerHTML = `
-<div style="text-align:center;margin-top:50px;">
-<h2>🎬 Content Not Found</h2>
-<p>The movie or TV series you’re looking for is unavailable.</p>
-<a href="/" style="color:yellow;">⬅ Back to Home</a>
 </div>
-`;
+
+<script>
+/* ==============================
+   CLEAN URL ROUTER
+============================== */
+
+let path = window.location.pathname;
+const storedPath = sessionStorage.getItem("redirectPath");
+
+if (storedPath) {
+  path = storedPath;
+  sessionStorage.removeItem("redirectPath");
 }
+
+const parts = path.split("/").filter(Boolean);
+
+// 
+const id = parts[1];
+
+if (!id) {
+  document.getElementById("movieTitle").innerHTML =
+  "🎬 No Movie Selected";
+  throw "No ID";
+}
+
+/* ==============================
+   SEO
+============================== */
+
+document.getElementById("canonicalURL").href = window.location.href;
+
+/* ==============================
+   TMDB API
+============================== */
+
+const apiKey = "e0b203e42e12587b6ce507b8aa452e8c";
+const imageBase = "https://image.tmdb.org/t/p/w500";
+
+/* ==============================
+   DETECT MOVIE OR TV
+============================== */
+
+async function loadContent() {
+
+  // Try movie first
+  let movieRes = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`);
+  
+  if (movieRes.ok) {
+    let movie = await movieRes.json();
+    loadMovie(movie);
+    return;
+  }
+
+  // If not movie → try TV
+  let tvRes = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`);
+
+  if (tvRes.ok) {
+    let tv = await tvRes.json();
+    loadTV(tv);
+    return;
+  }
+
+  document.getElementById("movieTitle").innerHTML =
+  "⚠️ Content Not Found";
+}
+
+loadContent();
+
+/* ==============================
+   LOAD MOVIE
+============================== */
+
+function loadMovie(movie) {
+
+  document.title = movie.title + " (" +
+  new Date(movie.release_date).getFullYear() +
+  ") - Watch Online";
+
+  document.getElementById("movieTitle").innerHTML =
+  movie.title + " (" + new Date(movie.release_date).getFullYear() + ")";
+
+  document.getElementById("movieTagline").innerText =
+  movie.tagline || "";
+
+  document.getElementById("streamPlayer").src =
+  "https://vidsrc.cc/v2/embed/movie/" + movie.id;
+
+  document.getElementById("movieDetail").innerHTML = `
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <img src="${imageBase + movie.poster_path}" class="movie-poster">
+      </div>
+      <div class="col-md-8">
+        <p>${movie.overview}</p>
+        <p><strong>Rating:</strong> ${movie.vote_average}/10</p>
+        <p><strong>Release:</strong> ${movie.release_date}</p>
+      </div>
+    </div>
+  `;
+}
+
+/* ==============================
+   LOAD TV
+============================== */
+
+function loadTV(tv) {
+
+  document.title = tv.name + " - Watch Online";
+
+  document.getElementById("movieTitle").innerHTML =
+  tv.name;
+
+  document.getElementById("movieTagline").innerText =
+  tv.tagline || "";
+
+  document.getElementById("streamPlayer").src =
+  "https://vidsrc.cc/v2/embed/tv/" + tv.id + "/1/1";
+
+  document.getElementById("movieDetail").innerHTML = `
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <img src="${imageBase + tv.poster_path}" class="movie-poster">
+      </div>
+      <div class="col-md-8">
+        <p>${tv.overview}</p>
+        <p><strong>First Air:</strong> ${tv.first_air_date}</p>
+        <p><strong>Rating:</strong> ${tv.vote_average}/10</p>
+      </div>
+    </div>
+  `;
+}
+
 </script>
 
 </body>
