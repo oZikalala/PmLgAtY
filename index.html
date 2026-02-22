@@ -1,172 +1,186 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="auto">
 <head>
-<meta charset="UTF-8">
-<title>Watch Movies for Free Without Registration | ADS.PREMIUMFILM.ORG</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="index, nofollow">
-<link id="canonicalURL" rel="canonical">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.2/lumen/bootstrap.min.css" rel="stylesheet">
+  <title id="page-title">Premiumfilm.org | Watch Movies & TV Shows Online</title>
+  <meta name="description" content="Watch Movies & TV Shows online with fast streaming experience on mobile and desktop.">
 
-<style>
-body{background:#111;color:#fff;font-family:Segoe UI;padding:2rem}
-#playerWrapper{aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
-#streamPlayer{width:100%;height:100%;border:0}
-.movie-poster{max-width:220px;border-radius:12px}
-</style>
+  <meta name="robots" content="index, nofollow">
+  <link rel="canonical" href="https://Premiumfilm.org">
+
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: rgba(255,255,255,0.06);
+      --text: #e6eef6;
+      --accent: #06b6d4;
+      --muted: #9aa4b2;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, var(--bg), #071024);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px;
+      min-height: 100vh;
+    }
+
+    .profile {
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    p.bio {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 8px 0 24px;
+    }
+
+    .links {
+      display: grid;
+      gap: 14px;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .link:hover {
+      background: var(--accent);
+      color: #042027;
+      transform: scale(1.03);
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (min-width: 600px) {
+      body { padding-top: 80px; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="profile">
+    <img src="https://static.vecteezy.com/system/resources/thumbnails/017/396/804/small_2x/netflix-mobile-application-logo-free-png.png"
+         alt="Watch Movies & TV Shows Full Movie Online" class="avatar">
 
-<div class="container">
+    <h1 id="main-title">WATCH FULL MOVIE ONLINE</h1>
+    <p class="bio" id="subtitle">4K UHD • 1080p Full HD • 720p HD</p>
 
-<h1 id="movieTitle">Loading...</h1>
-<p id="movieTagline" class="text-muted"></p>
+    <div class="links">
+      <a href="https://crn77.com/4/10016900" class="link" id="btn1">
+        ▶ WATCH NOW
+      </a>
+      <a href="https://data527.click/5cab48080fc69d72677f/90c3530f1d/?placementName=premiumfilm" class="link" id="btn2">
+        ▶ WATCH FULL HD
+      </a>
+    </div>
 
-<div id="playerWrapper" class="mb-4">
-<iframe id="streamPlayer" allowfullscreen></iframe>
-</div>
-
-<div id="movieDetail"></div>
-
-</div>
+    <footer>
+      © <script>document.write(new Date().getFullYear())</script> Premiumfilm.org
+      <br>
+      <span id="footer-text">This page provides access to third-party promotional content.</span>
+    </footer>
+  </div>
 
 <script>
-/* ==============================
-   CLEAN URL ROUTER
-============================== */
+// Translations for 30+ languages
+const translations = {
+  en: { title:"WATCH FULL MOVIE ONLINE", pageTitle:"Premiumfilm.org | Watch Movies & TV Shows Online", description:"Watch Movies & TV Shows online with fast streaming experience on mobile and desktop.", btn1:"▶ WATCH NOW", btn2:"▶ WATCH FULL HD", footer:"This page provides access to third-party promotional content."},
+  id: { title:"NONTON FILM LENGKAP ONLINE", pageTitle:"Premiumfilm.org | Nonton Film & Acara TV Online", description:"Tonton film dan acara TV online dengan pengalaman streaming cepat di perangkat mobile dan desktop.", btn1:"▶ TONTON SEKARANG", btn2:"▶ TONTON FULL HD", footer:"Halaman ini menyediakan akses ke konten promosi pihak ketiga."},
+  zh: { title:"在线观看完整电影", pageTitle:"Premiumfilm.org | 在线观看电影和电视节目", description:"通过手机和桌面享受快速流媒体观看电影和电视节目。", btn1:"▶ 立即观看", btn2:"▶ 观看高清完整版", footer:"本页面提供第三方推广内容的访问。"},
+  "zh-tw": { title:"在線觀看完整電影", pageTitle:"Premiumfilm.org | 在線觀看電影和電視節目", description:"透過手機與桌面快速串流觀看電影與電視節目。", btn1:"▶ 立即觀看", btn2:"▶ 觀看高清完整版", footer:"本頁面提供第三方推廣內容的訪問。"},
+  ar: { title:"مشاهدة فيلم كامل اونلاين", pageTitle:"Premiumfilm.org | مشاهدة الأفلام والمسلسلات أونلاين", description:"توفر هذه الصفحة وصولاً إلى محتوى ترويجي تابع لجهات خارجية.", btn1:"▶ شاهد الآن", btn2:"▶ شاهد بجودة HD كاملة", footer:"توفر هذه الصفحة وصولاً إلى محتوى ترويجي تابع لجهات خارجية."},
+  fr: { title:"REGARDER FILM COMPLET EN LIGNE", pageTitle:"Premiumfilm.org | Regarder Films & Séries En Ligne", description:"Cette page fournit un accès à du contenu promotionnel tiers.", btn1:"▶ REGARDER MAINTENANT", btn2:"▶ REGARDER EN FULL HD", footer:"Cette page fournit un accès à du contenu promotionnel tiers."},
+  es: { title:"VER PELÍCULA COMPLETA ONLINE", pageTitle:"Premiumfilm.org | Ver Películas y Series Online", description:"Mira películas y programas de TV en línea con una experiencia de streaming rápida en dispositivos móviles y de escritorio.", btn1:"▶ VER AHORA", btn2:"▶ VER EN FULL HD", footer:"Esta página proporciona acceso a contenido promocional de terceros."},
+  de: { title:"FILM ONLINE IN VOLLER LÄNGE ANSEHEN", pageTitle:"Premiumfilm.org | Filme & Serien Online Ansehen", description:"Diese Seite bietet Zugriff auf Werbeinhalte von Drittanbietern.", btn1:"▶ JETZT ANSEHEN", btn2:"▶ IN FULL HD ANSEHEN", footer:"Diese Seite bietet Zugriff auf Werbeinhalte von Drittanbietern."},
+  it: { title:"GUARDA FILM COMPLETI ONLINE", pageTitle:"Premiumfilm.org | Guarda Film e Serie TV Online", description:"Guarda film e programmi TV online con un'esperienza di streaming veloce su mobile e desktop.", btn1:"▶ GUARDA ORA", btn2:"▶ GUARDA IN FULL HD", footer:"Questa pagina fornisce accesso a contenuti promozionali di terze parti."},
+  ko: { title:"전체 영화 온라인 시청", pageTitle:"Premiumfilm.org | 영화 및 TV 프로그램 온라인 시청", description:"이 페이지는 제3자 홍보 콘텐츠에 대한 액세스를 제공합니다.", btn1:"▶ 지금 시청", btn2:"▶ 풀 HD 시청", footer:"이 페이지는 제3자 홍보 콘텐츠에 대한 액세스를 제공합니다."},
+  nl: { title:"VOLLEDIGE FILMS ONLINE BEKIJKEN", pageTitle:"Premiumfilm.org | Films en TV-programma's Online Bekijken", description:"Bekijk films en tv-programma's online met een snelle streamingervaring op mobiel en desktop.", btn1:"▶ BEKIJK NU", btn2:"▶ BEKIJK IN FULL HD", footer:"Deze pagina biedt toegang tot promotionele inhoud van derden."},
+  pl: { title:"OGLĄDAJ CAŁY FILM ONLINE", pageTitle:"Premiumfilm.org | Oglądaj Filmy i Programy TV Online", description:"Oglądaj filmy i programy telewizyjne online z szybkim streamingiem na urządzeniach mobilnych i desktopowych.", btn1:"▶ OGLĄDAJ TERAZ", btn2:"▶ OGLĄDAJ W FULL HD", footer:"Ta strona zapewnia dostęp do treści promocyjnych stron trzecich."},
+  pt: { title:"ASSISTIR FILME COMPLETO ONLINE", pageTitle:"Premiumfilm.org | Assistir Filmes e Séries Online", description:"Assista filmes e programas de TV online com uma experiência de streaming rápida em dispositivos móveis e desktop.", btn1:"▶ ASSISTIR AGORA", btn2:"▶ ASSISTIR EM FULL HD", footer:"Esta página fornece acesso a conteúdo promocional de terceiros."},
+  ro: { title:"VEZI FILM COMPLET ONLINE", pageTitle:"Premiumfilm.org | Urmărește Filme și Emisiuni TV Online", description:"Urmărește filme și emisiuni TV online cu experiență de streaming rapidă pe mobil și desktop.", btn1:"▶ VEZI ACUM", btn2:"▶ VEZI ÎN FULL HD", footer:"Această pagină oferă acces la conținut promoțional de la terți."},
+  ru: { title:"СМОТРЕТЬ ФИЛЬМ ОНЛАЙН ПОЛНОСТЬЮ", pageTitle:"Premiumfilm.org | Смотреть фильмы и сериалы онлайн", description:"Эта страница предоставляет доступ к рекламному контенту третьих лиц.", btn1:"▶ СМОТРЕТЬ СЕЙЧАС", btn2:"▶ СМОТРЕТЬ В FULL HD", footer:"Эта страница предоставляет доступ к рекламному контенту третьих лиц."},
+  sk: { title:"SLEDUJTE CELÝ FILM ONLINE", pageTitle:"Premiumfilm.org | Sledujte Filmy a TV Programy Online", description:"Sledujte filmy a TV programy online s rýchlym streamovaním na mobilných a desktop zariadeniach.", btn1:"▶ SLEDUJTE TERAZ", btn2:"▶ SLEDUJTE V FULL HD", footer:"Táto stránka poskytuje prístup k obsahu tretích strán."},
+  sr: { title:"GLEDANJE CELIH FILMOVA ONLINE", pageTitle:"Premiumfilm.org | Gledajte Filmove i TV Emisije Online", description:"Gledajte filmove i TV emisije online sa brzim streaming iskustvom na mobilnim i desktop uređajima.", btn1:"▶ GLEDAJ SADA", btn2:"▶ GLEDAJ U FULL HD", footer:"Ova stranica pruža pristup sadržaju trećih strana."},
+  th: { title:"ดูหนังเต็มเรื่องออนไลน์", pageTitle:"Premiumfilm.org | ดูหนังและรายการทีวีออนไลน์", description:"หน้านี้ให้การเข้าถึงเนื้อหาโปรโมชั่นของบุคคลที่สาม", btn1:"▶ ดูเลย", btn2:"▶ ดูแบบ FULL HD", footer:"หน้านี้ให้การเข้าถึงเนื้อหาโปรโมชั่นของบุคคลที่สาม"},
+  tr: { title:"FİLMİ TAM OLARAK ONLINE İZLE", pageTitle:"Premiumfilm.org | Film ve Dizileri Online İzle", description:"Bu sayfa üçüncü taraf tanıtım içeriklerine erişim sağlar.", btn1:"▶ ŞİMDİ İZLE", btn2:"▶ FULL HD İZLE", footer:"Bu sayfa üçüncü taraf tanıtım içeriklerine erişim sağlar."},
+  uz: { title:"TOʻLIQ FILMNI ONLINE KO‘RISH", pageTitle:"Premiumfilm.org | Film va TV Ko‘rsatuvlarini Online Ko‘rish", description:"Mobil va desktop qurilmalarda tezkor streaming bilan filmlar va TV ko‘rsatuvlarini tomosha qiling.", btn1:"▶ HOZIR KO‘RISH", btn2:"▶ FULL HD KO‘RISH", footer:"Ushbu sahifa uchinchi tomon reklama kontentiga kirish imkonini beradi."},
+  vi: { title:"XEM PHIM ĐẦY ĐỦ TRỰC TUYẾN", pageTitle:"Premiumfilm.org | Xem Phim & Chương Trình TV Online", description:"Trang này cung cấp quyền truy cập vào nội dung quảng cáo của bên thứ ba.", btn1:"▶ XEM NGAY", btn2:"▶ XEM FULL HD", footer:"Trang này cung cấp quyền truy cập vào nội dung quảng cáo của bên thứ ba."},
+  ja: { title:"映画をフルでオンライン視聴", pageTitle:"Premiumfilm.org | 映画＆テレビ番組をオンラインで視聴", description:"このページは第三者のプロモーションコンテンツへのアクセスを提供します。", btn1:"▶ 今すぐ見る", btn2:"▶ フルHDで見る", footer:"このページは第三者のプロモーションコンテンツへのアクセスを提供します。"}
+};
 
-let path = window.location.pathname;
-const storedPath = sessionStorage.getItem("redirectPath");
+// Auto-detect language
+const userLang = navigator.language.toLowerCase();
+let lang = "en";
+if(translations[userLang]) lang = userLang;
+else if(translations[userLang.slice(0,2)]) lang = userLang.slice(0,2);
 
-if (storedPath) {
-  path = storedPath;
-  sessionStorage.removeItem("redirectPath");
-}
-
-const parts = path.split("/").filter(Boolean);
-
-// 
-const id = parts[1];
-
-if (!id) {
-  document.getElementById("movieTitle").innerHTML =
-  "🎬 No Movie Selected";
-  throw "No ID";
-}
-
-/* ==============================
-   SEO
-============================== */
-
-document.getElementById("canonicalURL").href = window.location.href;
-
-/* ==============================
-   TMDB API
-============================== */
-
-const apiKey = "e0b203e42e12587b6ce507b8aa452e8c";
-const imageBase = "https://image.tmdb.org/t/p/w500";
-
-/* ==============================
-   DETECT MOVIE OR TV
-============================== */
-
-async function loadContent() {
-
-  // Try movie first
-  let movieRes = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`);
-  
-  if (movieRes.ok) {
-    let movie = await movieRes.json();
-    loadMovie(movie);
-    return;
-  }
-
-  // If not movie → try TV
-  let tvRes = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`);
-
-  if (tvRes.ok) {
-    let tv = await tvRes.json();
-    loadTV(tv);
-    return;
-  }
-
-  document.getElementById("movieTitle").innerHTML =
-  "⚠️ Content Not Found";
-}
-
-loadContent();
-
-/* ==============================
-   LOAD MOVIE
-============================== */
-
-function loadMovie(movie) {
-
-  document.title = movie.title + " (" +
-  new Date(movie.release_date).getFullYear() +
-  ") - Watch Online";
-
-  document.getElementById("movieTitle").innerHTML =
-  movie.title + " (" + new Date(movie.release_date).getFullYear() + ")";
-
-  document.getElementById("movieTagline").innerText =
-  movie.tagline || "";
-
-  document.getElementById("streamPlayer").src =
-  "https://vidsrc.cc/v2/embed/movie/" + movie.id;
-
-  document.getElementById("movieDetail").innerHTML = `
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <img src="${imageBase + movie.poster_path}" class="movie-poster">
-      </div>
-      <div class="col-md-8">
-        <p>${movie.overview}</p>
-        <p><strong>Rating:</strong> ${movie.vote_average}/10</p>
-        <p><strong>Release:</strong> ${movie.release_date}</p>
-      </div>
-    </div>
-  `;
-}
-
-/* ==============================
-   LOAD TV
-============================== */
-
-function loadTV(tv) {
-
-  document.title = tv.name + " - Watch Online";
-
-  document.getElementById("movieTitle").innerHTML =
-  tv.name;
-
-  document.getElementById("movieTagline").innerText =
-  tv.tagline || "";
-
-  document.getElementById("streamPlayer").src =
-  "https://vidsrc.cc/v2/embed/tv/" + tv.id + "/1/1";
-
-  document.getElementById("movieDetail").innerHTML = `
-    <div class="row mt-4">
-      <div class="col-md-4">
-        <img src="${imageBase + tv.poster_path}" class="movie-poster">
-      </div>
-      <div class="col-md-8">
-        <p>${tv.overview}</p>
-        <p><strong>First Air:</strong> ${tv.first_air_date}</p>
-        <p><strong>Rating:</strong> ${tv.vote_average}/10</p>
-      </div>
-    </div>
-  `;
-}
-
+// Apply translations
+document.documentElement.lang = lang;
+document.getElementById("main-title").innerText = translations[lang].title;
+document.getElementById("btn1").innerText = translations[lang].btn1;
+document.getElementById("btn2").innerText = translations[lang].btn2;
+document.getElementById("footer-text").innerText = translations[lang].footer;
+document.title = translations[lang].pageTitle;
+document.querySelector('meta[name="description"]').setAttribute("content", translations[lang].description);
 </script>
 
-   <script src="https://laxativethem.com/e5/70/a0/e570a0611d6c75a74d3ffcbe4d3b71a6.js"></script>
-   
-   <script src="https://laxativethem.com/13/1d/51/131d51df5a8e24c86dd30bca5cb7af4a.js"></script>
-   
+  <script async="async" data-cfasync="false" src="https://laxativethem.com/f640dbca1a68fdc68ec8600cf8716c18/invoke.js"></script>
+<div id="container-f640dbca1a68fdc68ec8600cf8716c18"></div>
+  
+  <script src="https://laxativethem.com/13/1d/51/131d51df5a8e24c86dd30bca5cb7af4a.js"></script>
+  
 </body>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4980993,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4980993&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 </html>
